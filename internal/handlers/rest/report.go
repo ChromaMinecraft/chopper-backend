@@ -10,17 +10,17 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type restHandler struct {
+type restReportHandler struct {
 	Svc ports.ReportServicer
 }
 
-func NewRestHandler(svc ports.ReportRepositorier) *restHandler {
-	return &restHandler{
+func NewRestReportHandler(svc ports.ReportServicer) *restReportHandler {
+	return &restReportHandler{
 		Svc: svc,
 	}
 }
 
-func (h *restHandler) GetAll(c echo.Context) error {
+func (h *restReportHandler) GetAll(c echo.Context) error {
 	ctx := context.Background()
 
 	result, err := h.Svc.GetAll(ctx)
@@ -31,7 +31,7 @@ func (h *restHandler) GetAll(c echo.Context) error {
 	return c.JSON(http.StatusOK, BuildRESTResponse("Get all reports success", result))
 }
 
-func (h *restHandler) Get(c echo.Context) error {
+func (h *restReportHandler) Get(c echo.Context) error {
 	ctx := context.Background()
 
 	id, err := strconv.Atoi(c.Param("id"))
@@ -47,7 +47,7 @@ func (h *restHandler) Get(c echo.Context) error {
 	return c.JSON(http.StatusOK, BuildRESTResponse("Get report success", result))
 }
 
-func (h *restHandler) Create(c echo.Context) error {
+func (h *restReportHandler) Create(c echo.Context) error {
 	ctx := context.Background()
 
 	var report domain.Report
@@ -62,7 +62,7 @@ func (h *restHandler) Create(c echo.Context) error {
 	return c.JSON(http.StatusCreated, BuildRESTResponse("Create report success", nil))
 }
 
-func (h *restHandler) Update(c echo.Context) error {
+func (h *restReportHandler) Update(c echo.Context) error {
 	ctx := context.Background()
 
 	id, err := strconv.Atoi(c.Param("id"))
@@ -82,7 +82,7 @@ func (h *restHandler) Update(c echo.Context) error {
 	return c.JSON(http.StatusOK, BuildRESTResponse("Update report success", nil))
 }
 
-func (h *restHandler) Delete(c echo.Context) error {
+func (h *restReportHandler) Delete(c echo.Context) error {
 	ctx := context.Background()
 
 	id, err := strconv.Atoi(c.Param("id"))
