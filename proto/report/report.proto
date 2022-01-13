@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+package report;
+
+message ReportResponses {
+  string message = 1;
+  repeated Report report = 2;
+}
+
+message ReportResponse {
+  string message = 1;
+  Report report = 2;
+}
+
+message ID {
+  int64 id = 1;
+}
+
+message EmptyParam {}
+
+message Report {
+  int64 id = 1;
+  int64 reporter_id = 2;
+  int64 reported_id = 3;
+  string report_id = 4;
+  string description = 5;
+}
+
+service ReportService {
+  rpc GetAll(EmptyParam) returns (ReportResponses) {}
+  rpc Get(ID) returns (ReportResponse) {}
+  rpc Create(Report) returns (ID) {}
+  rpc Update(Report) returns (ID) {}
+  rpc Delete(ID) returns (ID) {}
+}
